@@ -1,0 +1,11 @@
+.TodoList {
+    text-align: center;
+}
+
+.TodoList_header{
+      margin-bottom: 2rem;
+}
+
+.TodoList_new{
+    min-width: 50%;
+}
