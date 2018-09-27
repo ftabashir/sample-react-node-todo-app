@@ -5,10 +5,10 @@ export const priorityOptions: Priority[] = ['low', 'medium', 'high']
 export class Todo {
     constructor(
         public title: string,
-        public id: string = '',
         public dueDate: Date = defaultDueDate(),
         public priority: Priority = 'medium',
-        public completed: boolean = false) { }
+        public completed: boolean = false,
+        public id: string = '') { }
 }
 
 const defaultDueDate = () => {

@@ -1,14 +1,28 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import TodoList from './components/todo-list/TodoList';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import TodoList from './containers/TodoList';
 import './index.css';
-import * as models from './models'
 import registerServiceWorker from './registerServiceWorker';
+import { initialStore, IStoreState } from './store'
+import { TodoAction } from './store/actions'
+import { middlewares } from './store/middlewares'
+import { todoReducer } from './store/reducers'
 
-const todos: models.Todo[] = []
+const store = createStore<IStoreState, TodoAction, {}, {}>(
+  todoReducer,
+  initialStore,
+  composeWithDevTools(
+    applyMiddleware(...middlewares)
+  )
+);
 
 ReactDOM.render(
-  <TodoList todos={todos} />,
+  <Provider store={store}>
+    <TodoList />
+  </Provider>,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

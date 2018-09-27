@@ -3,14 +3,24 @@ import * as models from '../../models';
 import Todo from '../todo/Todo'
 import './TodoList.css';
 
-interface IProps { todos: models.Todo[] }
-interface IState { todos: models.Todo[] }
+interface IProps {
+  todos: {
+    [id: string]: {
+      model: models.Todo,
+      isAdding: boolean,
+      isRemoving: boolean,
+      isEditing: boolean
+    }
+  },
+  onAddTodo: (todo: models.Todo) => void,
+  onEditTodo: (todo: models.Todo) => void,
+  onRemoveTodo: (todo: models.Todo) => void,
+}
 
-class TodoList extends React.Component<IProps, IState> {
+class TodoList extends React.Component<IProps> {
   private newTodoRef: React.RefObject<HTMLInputElement>;
   constructor(props: IProps) {
     super(props);
-    this.state = { todos: this.props.todos }
     this.newTodoRef = React.createRef();
   }
 
@@ -18,25 +28,20 @@ class TodoList extends React.Component<IProps, IState> {
     const ENTER = 13;
     if (event.keyCode === ENTER) {
       if (this.newTodoRef.current) {
-        this.setState({
-          todos: [...this.state.todos, new models.Todo(this.newTodoRef.current.value)]
-        });
+        this.props.onAddTodo(new models.Todo(this.newTodoRef.current.value));
         this.newTodoRef.current.value = '';
       }
     }
   }
 
-  public onRemoveTodo = (id: string) => {
-    const todos = this.state.todos;
-    const index = todos.findIndex(todo => todo.title === id)
-    todos.splice(index, 1);
-    this.setState({ todos });
-  }
-
   public render() {
-    const todoItems = this.state.todos.map(todo =>
-      <Todo key={todo.title} todo={todo} onRemoveTodo={this.onRemoveTodo} />
-    );
+    const todoItems = Object.keys(this.props.todos).map(todoId => {
+      const todoInfo = this.props.todos[todoId];
+      return <Todo
+        todo={todoInfo.model} key={todoInfo.model.id}
+        isAdding={todoInfo.isAdding} isRemoving={todoInfo.isRemoving} isEditing={todoInfo.isEditing}
+        onEditTodo={this.props.onEditTodo} onRemoveTodo={this.props.onRemoveTodo} />
+    });
     return (
       <div className="TodoList">
         <h3 className="TodoList_header">Todo list</h3>

@@ -4,40 +4,29 @@ import './Todo.css';
 
 interface IProps {
   todo: models.Todo,
-  onRemoveTodo: (id: string) => void
-}
-interface IState {
-  isBusy: {
-    forCreate: boolean,
-    forDelete: boolean,
-    forEdit: boolean
-  }
-  todo: models.Todo
+  isAdding: boolean,
+  isRemoving: boolean,
+  isEditing: boolean,
+  onRemoveTodo: (todo: models.Todo) => void
+  onEditTodo: (todo: models.Todo) => void
 }
 
-class Todo extends React.Component<IProps, IState> {
+class Todo extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      isBusy: {
-        forCreate: false,
-        forDelete: false,
-        forEdit: false,
-      },
-      todo: this.props.todo
-    }
   }
 
   public onDueDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ todo: { ...this.state.todo, dueDate: new Date(event.target.value) } });
+    const value = event.target.value
+    this.props.onEditTodo({ ...this.props.todo, dueDate: new Date(value) });
   }
 
   public onPriorityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value as models.Priority
-    this.setState({ todo: { ...this.state.todo, priority: value } });
+    this.props.onEditTodo({ ...this.props.todo, priority: value });
   }
 
-  public onRemoveTodo = (id: string) => () => this.props.onRemoveTodo(id)
+  public onRemoveTodo = (todo: models.Todo) => () => this.props.onRemoveTodo(todo);
 
   public render() {
     const options = models.priorityOptions.map(option =>
@@ -49,9 +38,9 @@ class Todo extends React.Component<IProps, IState> {
         <span className="Todo-desc">{this.props.todo.title}</span>
         <input type="date"
           onChange={this.onDueDateChange}
-          value={this.state.todo.dueDate.toISOString().slice(0, 10)} />
-        <select value={this.state.todo.priority} onChange={this.onPriorityChange}>{options}</select>
-        <button onClick={this.onRemoveTodo(this.state.todo.title)}>X</button>
+          value={this.props.todo.dueDate.toISOString().slice(0, 10)} />
+        <select value={this.props.todo.priority} onChange={this.onPriorityChange}>{options}</select>
+        <button onClick={this.onRemoveTodo(this.props.todo)}>X</button>
       </div>
     );
   }
