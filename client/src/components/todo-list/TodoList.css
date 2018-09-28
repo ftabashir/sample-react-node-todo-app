@@ -9,3 +9,18 @@
 .TodoList_new{
     min-width: 50%;
 }
+
+.sort-section{
+    margin: 1rem;
+}
+
+.sort-section .sort-item{
+    padding: 2px;
+    margin: 4px;
+    border: 1px solid darkslategray;
+    cursor: pointer;
+}
+
+.sort-section .sort-item.active{
+    background-color: lightseagreen;
+}
