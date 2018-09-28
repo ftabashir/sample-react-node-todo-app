@@ -19,11 +19,12 @@ export function todoReducer(state: IStoreState, action: actions.TodoAction): ISt
                 }
             };
         case constants.ADD_TODO_SUCCESS:
+            const { '': outdatedTodo, ...notOutdatedTodos } = state.todos;
             const addedTodo = (action as actions.IAddTodoSuccess).todo
             return {
                 ...state,
                 todos: {
-                    ...state.todos,
+                    ...notOutdatedTodos,
                     [addedTodo.id]: {
                         ...state.todos[addedTodo.id],
                         isAdding: false,
@@ -46,32 +47,29 @@ export function todoReducer(state: IStoreState, action: actions.TodoAction): ISt
                 todos: {
                     ...state.todos,
                     [removingTodo.id]: {
-                        isAdding: false,
-                        isEditing: false,
-                        isRemoving: true,
-                        model: removingTodo
+                        ...state.todos[removingTodo.id],
+                        isRemoving: true
                     }
                 }
             };
         case constants.REMOVE_TODO_SUCCESS:
-            const removedTodo = (action as actions.IRemoveTodoSuccess).todo
+            const removedTodoId = (action as actions.IRemoveTodoSuccess).todo.id
+            const { [removedTodoId]: removedTodo, ...notRemovedTodos } = state.todos;
+            return {
+                ...state,
+                todos: { ...notRemovedTodos }
+            };
+        case constants.REMOVE_TODO_FAIL:
+            const notRemovedTodo = (action as actions.IRemoveTodoFail).todo
             return {
                 ...state,
                 todos: {
                     ...state.todos,
-                    [removedTodo.id]: {
-                        ...state.todos[removedTodo.id],
-                        isRemoving: false,
-                        model: removedTodo
+                    [notRemovedTodo.id]: {
+                        ...state.todos[notRemovedTodo.id],
+                        isRemoving: false
                     }
                 }
-            };
-        case constants.REMOVE_TODO_FAIL:
-            const notRemovedTodo = (action as actions.IRemoveTodoFail).todo
-            const { [notRemovedTodo.id]: notRemovedTodo2, ...notRemovedOthers } = state.todos
-            return {
-                ...state,
-                todos: { ...notRemovedOthers }
             };
 
         case constants.EDIT_TODO:
