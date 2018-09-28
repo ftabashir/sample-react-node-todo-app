@@ -17,6 +17,7 @@ export const typeDefs = gql`
     title: String!
     priority: Priority
     dueDate: String
+    completed: Boolean
   }
   input UpdateTodoInput{
     title: String
