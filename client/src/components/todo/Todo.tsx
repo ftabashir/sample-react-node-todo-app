@@ -25,6 +25,10 @@ class Todo extends React.Component<IProps> {
     const value = event.target.value as models.Priority
     this.props.onEditTodo({ ...this.props.todo, priority: value });
   }
+  public onCompletedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.checked
+    this.props.onEditTodo({ ...this.props.todo, completed: value });
+  }
 
   public onRemoveTodo = (todo: models.Todo) => () => this.props.onRemoveTodo(todo);
 
@@ -34,7 +38,9 @@ class Todo extends React.Component<IProps> {
     );
     return (
       <div className="Todo">
-        <input type="radio" />
+        <input type="checkbox"
+          onChange={this.onCompletedChange}
+          checked={this.props.todo.completed} />
         <span className="Todo-desc">{this.props.todo.title}</span>
         <input type="date"
           onChange={this.onDueDateChange}
