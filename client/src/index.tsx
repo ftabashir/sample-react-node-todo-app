@@ -7,17 +7,19 @@ import TodoList from './containers/TodoList';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { initialStore, IStoreState } from './store'
-import { TodoAction } from './store/actions'
+import * as actions from './store/actions'
 import { middlewares } from './store/middlewares'
 import { todoReducer } from './store/reducers'
 
-const store = createStore<IStoreState, TodoAction, {}, {}>(
+const store = createStore<IStoreState, actions.TodoAction, {}, {}>(
   todoReducer,
   initialStore,
   composeWithDevTools(
     applyMiddleware(...middlewares)
   )
 );
+
+store.dispatch(actions.loadTodos())
 
 ReactDOM.render(
   <Provider store={store}>

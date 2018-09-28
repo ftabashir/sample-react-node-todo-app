@@ -4,6 +4,17 @@ import * as constants from '../constants/index';
 
 export function todoReducer(state: IStoreState, action: actions.TodoAction): IStoreState {
     switch (action.type) {
+        case constants.LOAD_TODOS_SUCCESS:
+            const todos = (action as actions.ILoadTodosSuccess).todos
+            const todosInfo = todos.reduce((accumulator, current) => {
+                accumulator[current.id] = { isAdding: false, isEditing: false, isRemoving: false, model: current };
+                return accumulator;
+            }, {});
+            return {
+                ...state,
+                todos: todosInfo
+            };
+
         case constants.ADD_TODO:
             const addingTodo = (action as actions.IAddTodo).todo
             return {

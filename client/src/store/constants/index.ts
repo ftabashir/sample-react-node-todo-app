@@ -1,3 +1,10 @@
+export const LOAD_TODOS = 'LOAD_TODOS';
+export type LOAD_TODOS = typeof LOAD_TODOS;
+export type LOAD_TODOS_SUCCESS = typeof LOAD_TODOS_SUCCESS;
+export const LOAD_TODOS_SUCCESS = 'LOAD_TODOS_SUCCESS';
+export const LOAD_TODOS_FAIL = 'LOAD_TODOS_FAIL';
+export type LOAD_TODOS_FAIL = typeof LOAD_TODOS_FAIL;
+
 export const ADD_TODO = 'ADD_TODO';
 export type ADD_TODO = typeof ADD_TODO;
 export type ADD_TODO_SUCCESS = typeof ADD_TODO_SUCCESS;
