@@ -5,7 +5,7 @@ export interface ITodoModel extends ITodo, Document { }
 
 export const TodoSchema: Schema = new Schema({
     title: String,
-    dueDate: Date,
+    dueDate: String,
     priority: String,
     completed: Boolean
 }, { versionKey: false });
