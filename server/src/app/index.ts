@@ -12,7 +12,9 @@ app.use(morgan('dev'));
 const PORT = process.env.PORT || 3000;
 apolloServer.applyMiddleware({ app });
 
-const dbUrl = 'mongodb://localhost/todo-db';
+const dbHost = process.env.DB_HOST || 'localhost';
+const dbUrl = `mongodb://${dbHost}/todo-db`;
+console.log(`connecting to MongoDb at ${dbUrl}`);
 mongoose.connect(dbUrl, (err) => {
     if (err) {
         console.error(err.message);
