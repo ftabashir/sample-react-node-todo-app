@@ -1,3 +1,13 @@
+## Todo list app
+### In this project I used:
+ - Node & Express
+ - GraphQL
+ - Apollo (Client-Server)
+ - Typescript
+ - React/Redux
+ - Docker
+ - Github
+ 
 ### Docker instructions:
     docker network create todo-network
     docker build --no-cache --tag todo-mongo:1 db
