@@ -9,6 +9,12 @@
  - Github
  
 ### Docker instructions:
+Run project with _docker-compose_:
+
+    docker-compose up
+
+Run project with docker cli
+
     docker network create todo-network
     docker build --tag todo-mongo:1 db
     docker run --name todo-mongo-container --net todo-network todo-mongo:1

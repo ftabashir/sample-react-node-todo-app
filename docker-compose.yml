@@ -1,0 +1,17 @@
+version: '3'
+
+services: 
+  todo-mongo-container:
+    build: ./db
+  todo-server-container:
+    build: ./server
+    ports: 
+      - 3000:3000
+    depends_on: 
+      - todo-mongo-container
+  todo-client-container:
+    build: ./client
+    ports: 
+      - 4000:3001
+    depends_on: 
+      - todo-server-container
